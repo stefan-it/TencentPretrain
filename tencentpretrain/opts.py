@@ -104,7 +104,7 @@ def optimization_opts(parser):
                         help="Warm up value.")
     parser.add_argument("--lr_decay", type=float, default=0.5,
                         help="Learning rate decay value.")
-    parser.add_argument("--optimizer", choices=["adamw", "adafactor"],
+    parser.add_argument("--optimizer", choices=["adamw", "adafactor", "lamb"],
                         default="adamw",
                         help="Optimizer type.")
     parser.add_argument("--scheduler", choices=["linear", "cosine", "cosine_with_restarts", "polynomial",
