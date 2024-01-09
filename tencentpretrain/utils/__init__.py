@@ -23,7 +23,7 @@ str2dataloader = {"bert": BertDataloader, "lm": LmDataloader, "mlm": MlmDataload
 
 str2act = {"gelu": gelu, "gelu_fast": gelu_fast, "relu": relu, "silu": silu, "linear": linear}
 
-str2optimizer = {"adamw": AdamW, "adafactor": Adafactor}
+str2optimizer = {"adamw": AdamW, "adafactor": Adafactor, "lamb": Lamb}
 
 str2scheduler = {"linear": get_linear_schedule_with_warmup, "cosine": get_cosine_schedule_with_warmup,
                  "cosine_with_restarts": get_cosine_with_hard_restarts_schedule_with_warmup,
