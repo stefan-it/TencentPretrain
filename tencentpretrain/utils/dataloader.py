@@ -77,7 +77,7 @@ class BertDataloader(Dataloader):
             for ins in instances:
                 src_single, pad_num = ins[0]
                 for _ in range(pad_num):
-                    src_single.append(self.vocab.get(PAD_TOKEN))
+                    src_single.append(self.vocab.get(PAD_TOKEN, 0))
 
                 if len(ins) == 4:
                     src.append(src_single)
@@ -438,11 +438,11 @@ class ClsDataloader(Dataloader):
                     seg_single = [1] * seg_pos_single[0]
                 elif len(seg_pos_single) == 2:
                     seg_single = [1] * seg_pos_single[0] + [2] * seg_pos_single[1]
-                
+
                 for _ in range(pad_num):
                     src_single.append(self.vocab.get(PAD_TOKEN))
                     seg_single.append(0)
-                
+
                 src.append(src_single)
                 tgt.append(ins[1])
                 seg.append(seg_single)
@@ -511,7 +511,7 @@ class ClsMlmDataloader(Dataloader):
                     seg_single = [1] * seg_pos_single[0]
                 elif len(seg_pos_single) == 2:
                     seg_single = [1] * seg_pos_single[0] + [2] * seg_pos_single[1]
-                
+
                 for _ in range(pad_num):
                     src_single.append(self.vocab.get(PAD_TOKEN))
                     seg_single.append(0)
