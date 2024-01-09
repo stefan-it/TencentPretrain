@@ -19,7 +19,7 @@ from tencentpretrain.initialize import *
 def init_model(args):
     if args.deepspeed:
         import deepspeed
-    
+
         with deepspeed.zero.Init(data_parallel_group=mpu.get_data_parallel_group() if args.use_mp else None,
                             remote_device=None,
                             config_dict_or_path=args.deepspeed_config,
@@ -45,13 +45,13 @@ def init_model(args):
                     ),
                     flush=True,
                 )
-                
+
     else:
         model_for_training = build_model(args)
         # Load or initialize parameters.
     if args.pretrained_model_path is not None and args.resume_from_checkpoint is None:
         # Initialize with pretrained model.
-    
+
         if args.deepspeed and args.enable_zero3:
             if os.path.isdir(args.pretrained_model_path):
                     index_filename = os.path.join(args.pretrained_model_path, "tencentpretrain_model.bin.index.json")
@@ -94,7 +94,7 @@ def init_model(args):
         model_for_dataloader = None
 
     return model_for_training, model_for_dataloader
-    
+
 
 def init_optimizer(args, model_for_training):
     param_optimizer = list(model_for_training.named_parameters())
@@ -118,6 +118,8 @@ def init_optimizer(args, model_for_training):
             custom_optimizer = deepspeed.ops.adam.DeepSpeedCPUAdam(optimizer_grouped_parameters, lr=args.learning_rate, bias_correction=False)
         else:
             custom_optimizer = str2optimizer[args.optimizer](optimizer_grouped_parameters, lr=args.learning_rate, correct_bias=False)
+    elif args.optimizer in ["lamb"]:
+        custom_optimizer = str2optimizer[args.optimizer](optimizer_grouped_parameters, lr=args.learning_rate)
     else:
         custom_optimizer = str2optimizer[args.optimizer](optimizer_grouped_parameters, lr=args.learning_rate, scale_parameter=False, relative_step=False)
     if args.scheduler in ["constant"]:
