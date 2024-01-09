@@ -13,5 +13,6 @@
   "mask": "fully_visible",
   "factorized_embedding_parameterization": true,
   "parameter_sharing": true,
-  "target": ["mlm", "sp"]
+  "target": ["mlm", "sp"],
+  "optimizer": "lamb"
 }
